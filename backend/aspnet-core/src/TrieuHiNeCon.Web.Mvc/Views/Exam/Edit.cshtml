@@ -1,0 +1,191 @@
+@using TrieuHiNeCon.Toeic.Dtos
+@model AdminExamPreviewDto
+
+@{
+    ViewBag.Title = "Chỉnh sửa Đề thi - " + (Model?.Title ?? "Cập nhật");
+}
+
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <a href="/Exam" class="btn btn-sm btn-outline-secondary mb-2">
+                <i class="fas fa-arrow-left mr-1"></i> Quay lại Danh sách
+            </a>
+            <h3 class="h4 font-weight-bold text-gray-800">
+                <i class="fas fa-edit text-warning mr-2"></i>Chỉnh sửa Đề thi: @Model.Title
+            </h3>
+        </div>
+        <div>
+            <a href="/Exam/Preview/@Model.Id" class="btn btn-outline-info shadow-sm mr-2">
+                <i class="fas fa-eye mr-1"></i> Xem trước Đề thi
+            </a>
+        </div>
+    </div>
+
+    <!-- Thông tin chung đề thi -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-light py-3">
+            <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-info-circle mr-1"></i>Thông tin chung Đề thi</h6>
+        </div>
+        <div class="card-body">
+            <form id="formUpdateExam">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label font-weight-bold">Tên Đề thi</label>
+                        <input type="text" class="form-control" name="title" id="examTitle" value="@Model.Title" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label font-weight-bold">Mô tả Đề thi</label>
+                        <input type="text" class="form-control" name="description" id="examDesc" value="@Model.Description" />
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm" id="btnSaveExamInfo">
+                    <i class="fas fa-save mr-1"></i> Lưu thông tin chung
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Danh sách câu hỏi có thể chỉnh sửa -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-light py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">
+                <i class="fas fa-list-alt mr-1"></i>Chỉnh sửa Câu hỏi & Đáp án (100 câu)
+            </h6>
+            <small class="text-muted">Nhấn nút "Lưu câu hỏi" trên từng card để cập nhật thay đổi</small>
+        </div>
+        <div class="card-body">
+            <!-- Gom toàn bộ câu hỏi L1 và L2 để giáo viên sửa -->
+            @{
+                var allQuestions = new List<AdminQuestionDto>();
+                if (Model.Level1Questions != null) allQuestions.AddRange(Model.Level1Questions);
+                if (Model.Level2Groups != null)
+                {
+                    foreach (var g in Model.Level2Groups)
+                    {
+                        if (g.Questions != null) allQuestions.AddRange(g.Questions);
+                    }
+                }
+                allQuestions = allQuestions.OrderBy(q => q.QuestionNumber).ToList();
+            }
+
+            @foreach (var q in allQuestions)
+            {
+                <div class="card mb-4 border question-edit-card" id="qcard-@q.Id">
+                    <div class="card-header bg-white py-2 d-flex justify-content-between align-items-center">
+                        <span class="font-weight-bold text-dark">
+                            <i class="fas fa-question-circle text-primary mr-1"></i>Câu @q.QuestionNumber
+                        </span>
+                        <div class="d-flex align-items-center">
+                            <span class="mr-2 small font-weight-bold">Đáp án đúng [ANS]:</span>
+                            <select class="form-select form-control-sm border-success text-success font-weight-bold q-ans" style="width: 80px;" data-qid="@q.Id">
+                                <!option value="A" @(q.CorrectAnswer == "A" ? "selected" : "")>A</!option>
+                                <!option value="B" @(q.CorrectAnswer == "B" ? "selected" : "")>B</!option>
+                                <!option value="C" @(q.CorrectAnswer == "C" ? "selected" : "")>C</!option>
+                                <!option value="D" @(q.CorrectAnswer == "D" ? "selected" : "")>D</!option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group mb-3">
+                            <label class="small text-muted font-weight-bold">Nội dung câu hỏi [Q]:</label>
+                            <textarea class="form-control q-text" rows="2" data-qid="@q.Id">@q.QuestionText</textarea>
+                        </div>
+
+                        <div class="row">
+                            @foreach (var opt in q.Options.OrderBy(o => o.OptionKey))
+                            {
+                                <div class="col-md-6 mb-2">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text font-weight-bold bg-light">@opt.OptionKey</span>
+                                        <input type="text" class="form-control opt-text" data-key="@opt.OptionKey" data-qid="@q.Id" value="@opt.OptionText" />
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="text-end mt-2 text-right">
+                            <button type="button" class="btn btn-outline-success btn-sm btn-save-q" data-qid="@q.Id">
+                                <i class="fas fa-save mr-1"></i> Lưu câu @q.QuestionNumber
+                            </button>
+                            <span class="save-status-@q.Id ml-2 small text-success" style="display:none;">
+                                <i class="fas fa-check-circle"></i> Đã lưu!
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts {
+<script>
+    // Lưu thông tin đề thi
+    $('#formUpdateExam').submit(function (e) {
+        e.preventDefault();
+        const payload = {
+            id: parseInt('@Model.Id'),
+            title: $('#examTitle').val(),
+            description: $('#examDesc').val()
+        };
+
+        $.ajax({
+            url: '/api/exam/updateExam',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(payload),
+            success: function () {
+                alert('Đã cập nhật thông tin chung của đề thi!');
+            },
+            error: function (xhr) {
+                alert('Lỗi: ' + (xhr.responseJSON?.message || 'Không thể cập nhật.'));
+            }
+        });
+    });
+
+    // Lưu từng câu hỏi
+    $('.btn-save-q').click(function () {
+        const qid = $(this).data('qid');
+        const card = $('#qcard-' + qid);
+
+        const qText = card.find('.q-text').val();
+        const correctAns = card.find('.q-ans').val();
+        const options = [];
+
+        card.find('.opt-text').each(function () {
+            options.push({
+                optionKey: $(this).data('key'),
+                optionText: $(this).val()
+            });
+        });
+
+        const payload = {
+            questionId: qid,
+            questionText: qText,
+            correctAnswer: correctAns,
+            options: options
+        };
+
+        const btn = $(this);
+        btn.prop('disabled', true);
+
+        $.ajax({
+            url: '/api/exam/updateQuestion',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(payload),
+            success: function () {
+                $('.save-status-' + qid).show().delay(2000).fadeOut();
+            },
+            error: function (xhr) {
+                alert('Lỗi khi lưu câu hỏi: ' + (xhr.responseJSON?.message || 'Vui lòng thử lại.'));
+            },
+            complete: function () {
+                btn.prop('disabled', false);
+            }
+        });
+    });
+</script>
+}

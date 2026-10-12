@@ -1,0 +1,203 @@
+@using TrieuHiNeCon.Toeic.Dtos
+@model AdminExamPreviewDto
+
+@{
+    ViewBag.Title = "Xem trước Đề thi - " + (Model?.Title ?? "Chi tiết");
+}
+
+<div class="container-fluid mt-4">
+    <!-- Top Bar -->
+    <div class="card shadow-sm border-0 mb-4 bg-white">
+        <div class="card-body d-flex justify-content-between align-items-center">
+            <div>
+                <a href="/Exam" class="btn btn-sm btn-outline-secondary mb-2">
+                    <i class="fas fa-arrow-left mr-1"></i> Quay lại Quản lý Đề thi
+                </a>
+                <h3 class="h4 font-weight-bold text-gray-800 mb-1">
+                    <i class="fas fa-search-plus text-info mr-2"></i>Xem trước Đề thi & Rà soát Lỗi: @Model.Title
+                </h3>
+                <div class="text-muted small">
+                    <span class="mr-3"><i class="far fa-clock mr-1"></i>Thời gian: @Model.DurationMinutes phút</span>
+                    <span class="mr-3"><i class="fas fa-list-ol mr-1"></i>Tổng số: @Model.TotalQuestions câu</span>
+                    <span>
+                        Trạng thái: 
+                        @if (Model.Status == "Published")
+                        {
+                            <span class="badge badge-success px-2 py-1"><i class="fas fa-check-circle mr-1"></i>Đã công bố</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-warning px-2 py-1"><i class="fas fa-pencil-alt mr-1"></i>Bản nháp (Draft)</span>
+                        }
+                    </span>
+                </div>
+            </div>
+            <div>
+                <a href="/Exam/Edit/@Model.Id" class="btn btn-warning shadow-sm mr-2">
+                    <i class="fas fa-edit mr-1"></i> Chỉnh sửa Nội dung
+                </a>
+                @if (Model.Status != "Published")
+                {
+                    <button class="btn btn-success shadow-sm" id="btnPublishTop" data-id="@Model.Id">
+                        <i class="fas fa-check-circle mr-1"></i> Duyệt & Công bố Đề thi
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Hướng dẫn Rà soát -->
+    <div class="alert alert-info border-0 shadow-sm d-flex align-items-center mb-4">
+        <i class="fas fa-info-circle fa-2x mr-3 text-info"></i>
+        <div>
+            <strong>Chế độ Xem trước dành cho Giảng viên (Review Mode):</strong>
+            <p class="mb-0 small">
+                Giao diện hiển thị đầy đủ văn bản bài đọc, hình ảnh đính kèm và đáp án đúng (<span class="badge badge-success">Đáp án [ANS]</span>) của từng câu. 
+                Giảng viên hãy rà soát kỹ lỗi chính tả, thứ tự các câu (101-200) và tính chính xác của các phương án trước khi công bố.
+            </p>
+        </div>
+    </div>
+
+    <!-- TABS: PART 5 (Level 1) vs PART 6 & 7 (Level 2) -->
+    <ul class="nav nav-pills nav-fill mb-4 shadow-sm bg-white p-2 rounded" id="examTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active font-weight-bold" id="level1-tab" data-toggle="pill" href="#level1" role="tab">
+                <i class="fas fa-question-circle mr-1"></i> Level 1: Part 5 (Câu hỏi độc lập 101 - 130)
+                <span class="badge badge-primary ml-2">@Model.Level1Questions.Count câu</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link font-weight-bold" id="level2-tab" data-toggle="pill" href="#level2" role="tab">
+                <i class="fas fa-file-alt mr-1"></i> Level 2: Part 6 & Part 7 (Bài đọc & Hình ảnh 131 - 200)
+                <span class="badge badge-info ml-2">@Model.Level2Groups.Count đoạn văn</span>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="examTabContent">
+        <!-- TAB 1: LEVEL 1 (PART 5) -->
+        <div class="tab-pane fade show active" id="level1" role="tabpanel">
+            <div class="row">
+                @foreach (var q in Model.Level1Questions)
+                {
+                    <div class="col-lg-6 mb-4">
+                        <div class="card shadow-sm border-0 h-100">
+                            <div class="card-header bg-light d-flex justify-content-between align-items-center py-2">
+                                <span class="font-weight-bold text-primary">Câu @q.QuestionNumber</span>
+                                <span class="badge badge-success px-2 py-1">Đáp án đúng: @q.CorrectAnswer</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text font-weight-bold mb-3 text-dark">@q.QuestionText</p>
+                                <div class="list-group list-group-flush">
+                                    @foreach (var opt in q.Options)
+                                    {
+                                        bool isCorrect = (opt.OptionKey == q.CorrectAnswer);
+                                        <div class="list-group-item px-2 py-2 d-flex align-items-center @(isCorrect ? "bg-light-success text-success font-weight-bold" : "")">
+                                            <span class="badge @(isCorrect ? "badge-success" : "badge-secondary") mr-2 px-2 py-1">
+                                                (@opt.OptionKey)
+                                            </span>
+                                            <span>@opt.OptionText</span>
+                                            @if (isCorrect)
+                                            {
+                                                <i class="fas fa-check text-success ml-auto"></i>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- TAB 2: LEVEL 2 (PART 6 & PART 7) -->
+        <div class="tab-pane fade" id="level2" role="tabpanel">
+            @for (int idx = 0; idx < Model.Level2Groups.Count; idx++)
+            {
+                var grp = Model.Level2Groups[idx];
+                var qFirst = grp.Questions.FirstOrDefault()?.QuestionNumber ?? 0;
+                var qLast = grp.Questions.LastOrDefault()?.QuestionNumber ?? 0;
+
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-dark text-white py-2 d-flex justify-content-between align-items-center">
+                        <span class="font-weight-bold">
+                            <i class="fas fa-newspaper mr-2"></i>Đoạn @(idx + 1): Questions @qFirst-@qLast (Part @grp.PartNumber)
+                        </span>
+                        <span class="badge badge-light">@grp.Questions.Count câu hỏi</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Cột trái: Văn bản bài đọc / Hình ảnh -->
+                            <div class="col-lg-6 border-right">
+                                <h6 class="font-weight-bold text-secondary mb-2"><i class="fas fa-align-left mr-1"></i>Nội dung Đoạn văn / Tài liệu:</h6>
+                                
+                                @if (!string.IsNullOrEmpty(grp.ImagePath))
+                                {
+                                    <div class="mb-3 text-center border p-2 rounded bg-light">
+                                        <img src="@grp.ImagePath" class="img-fluid rounded" alt="Hình ảnh bài đọc" style="max-height: 400px;" />
+                                        <div class="small text-muted mt-1"><i class="fas fa-image mr-1"></i>Đường dẫn ảnh: @grp.ImagePath</div>
+                                    </div>
+                                }
+
+                                @if (!string.IsNullOrEmpty(grp.PassageText))
+                                {
+                                    <div class="p-3 bg-light rounded border passage-content" style="white-space: pre-wrap; font-family: Georgia, serif; line-height: 1.6; font-size: 0.95rem;">
+                                        @grp.PassageText
+                                    </div>
+                                }
+                            </div>
+
+                            <!-- Cột phải: Danh sách câu hỏi kèm theo -->
+                            <div class="col-lg-6">
+                                <h6 class="font-weight-bold text-secondary mb-3"><i class="fas fa-tasks mr-1"></i>Danh sách câu hỏi phụ thuộc:</h6>
+                                
+                                @foreach (var q in grp.Questions)
+                                {
+                                    <div class="card mb-3 border">
+                                        <div class="card-header bg-light py-2 d-flex justify-content-between align-items-center">
+                                            <span class="font-weight-bold text-primary">Câu @q.QuestionNumber</span>
+                                            <span class="badge badge-success">Đáp án: @q.CorrectAnswer</span>
+                                        </div>
+                                        <div class="card-body py-2 px-3">
+                                            <p class="font-weight-bold mb-2">@q.QuestionText</p>
+                                            <div class="row">
+                                                @foreach (var opt in q.Options)
+                                                {
+                                                    bool isCorrect = (opt.OptionKey == q.CorrectAnswer);
+                                                    <div class="col-sm-6 mb-1">
+                                                        <div class="p-1 px-2 rounded small @(isCorrect ? "bg-success text-white font-weight-bold" : "bg-light text-dark")">
+                                                            (@opt.OptionKey) @opt.OptionText
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-light-success { background-color: #e8f5e9; }
+</style>
+
+@section scripts {
+<script>
+    $('#btnPublishTop').click(function () {
+        const id = $(this).data('id');
+        if (confirm('Xác nhận công bố đề thi này cho học viên?')) {
+            $.post('/api/exam/publish/' + id, function () {
+                alert('Đã công bố đề thi thành công!');
+                location.reload();
+            });
+        }
+    });
+</script>
+}

@@ -1,0 +1,402 @@
+@using TrieuHiNeCon.Toeic.Dtos
+@model List<AdminExamListItemDto>
+
+@{
+    ViewBag.Title = "Danh sách đề thi - TOEIC Prepwise";
+    var exams = Model ?? new List<AdminExamListItemDto>();
+}
+
+<style>
+    :root {
+        --primary-blue: #1668e8;
+        --primary-dark: #0f52bf;
+        --primary-light: #eaf2ff;
+        --text-dark: #0f172a;
+        --text-muted: #64748b;
+        --border-color: #f1f5f9;
+        --card-bg: #ffffff;
+    }
+
+    body {
+        background-color: #f8fafc;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .prepwise-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 24px 20px 60px 20px;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+        background: linear-gradient(135deg, #1668e8 0%, #1052e0 60%, #0d42b8 100%);
+        border-radius: 24px;
+        padding: 40px 44px;
+        color: #ffffff;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(22, 104, 232, 0.22);
+        margin-bottom: 36px;
+    }
+
+    .hero-banner::after {
+        content: '';
+        position: absolute;
+        width: 320px;
+        height: 320px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 70%);
+        top: -80px;
+        right: -40px;
+        pointer-events: none;
+    }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        backdrop-filter: blur(8px);
+        color: #ffffff;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        padding: 6px 14px;
+        border-radius: 30px;
+        margin-bottom: 18px;
+        text-transform: uppercase;
+    }
+
+    .hero-title {
+        font-size: 32px;
+        font-weight: 800;
+        line-height: 1.25;
+        margin-bottom: 12px;
+        color: #ffffff;
+        max-width: 680px;
+        letter-spacing: -0.5px;
+    }
+
+    .hero-subtitle {
+        font-size: 14px;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.88);
+        max-width: 620px;
+        margin-bottom: 0;
+    }
+
+    /* Section Header */
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 24px;
+    }
+
+    .section-tag {
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: var(--primary-blue);
+        text-transform: uppercase;
+        margin-bottom: 4px;
+    }
+
+    .section-title {
+        font-size: 24px;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin: 0;
+        letter-spacing: -0.3px;
+    }
+
+    .section-count {
+        font-size: 13px;
+        color: var(--text-muted);
+        font-weight: 500;
+    }
+
+    /* Grid of Cards */
+    .exam-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+
+    @@media (max-width: 992px) {
+        .exam-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 680px) {
+        .exam-grid {
+            grid-template-columns: 1fr;
+        }
+        .hero-banner {
+            padding: 28px 24px;
+        }
+        .hero-title {
+            font-size: 24px;
+        }
+    }
+
+    /* Individual Card */
+    .exam-card {
+        background: #ffffff;
+        border: 1px solid #eef2f6;
+        border-radius: 20px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+        position: relative;
+    }
+
+    .exam-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 30px rgba(22, 104, 232, 0.10);
+        border-color: #dbeafe;
+    }
+
+    .card-top-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+    }
+
+    .exam-num-badge {
+        background: var(--primary-light);
+        color: var(--primary-blue);
+        font-weight: 800;
+        font-size: 15px;
+        padding: 6px 14px;
+        border-radius: 10px;
+        display: inline-block;
+    }
+
+    .exam-level-badge {
+        background: #f1f5f9;
+        color: #475569;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 4px 12px;
+        border-radius: 20px;
+    }
+
+    .exam-card-title {
+        font-size: 17px;
+        font-weight: 800;
+        color: var(--text-dark);
+        line-height: 1.35;
+        margin-bottom: 8px;
+        min-height: 46px;
+    }
+
+    .exam-card-desc {
+        font-size: 13px;
+        color: var(--text-muted);
+        line-height: 1.5;
+        margin-bottom: 20px;
+        min-height: 38px;
+    }
+
+    .exam-meta-row {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding-top: 14px;
+        border-top: 1px solid #f1f5f9;
+        margin-bottom: 20px;
+        color: #475569;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .exam-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .exam-meta-item i {
+        color: var(--primary-blue);
+        font-size: 14px;
+    }
+
+    .btn-start-exam {
+        background: var(--primary-blue);
+        color: #ffffff !important;
+        font-weight: 700;
+        font-size: 14px;
+        padding: 12px 18px;
+        border-radius: 12px;
+        text-align: center;
+        text-decoration: none !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.2s ease;
+        border: none;
+        box-shadow: 0 4px 12px rgba(22, 104, 232, 0.25);
+        margin-top: auto;
+    }
+
+    .btn-start-exam:hover {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(22, 104, 232, 0.35);
+    }
+
+    .card-admin-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 10px;
+        padding-top: 8px;
+    }
+
+    .card-admin-actions .btn-sm {
+        font-size: 11px;
+        padding: 3px 8px;
+        border-radius: 6px;
+    }
+</style>
+
+<div class="prepwise-container">
+    <!-- Top Admin Bar -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center">
+            <span class="badge badge-pill badge-primary px-3 py-2 mr-2" style="background:#1668e8;">
+                <i class="fas fa-book-reader mr-1"></i> TOEIC Prepwise
+            </span>
+            <span class="text-muted small">Cổng luyện thi trực tuyến</span>
+        </div>
+        <div>
+            <a href="/Exam/Import" class="btn btn-sm btn-outline-primary shadow-sm rounded-pill px-3 font-weight-bold">
+                <i class="fas fa-file-upload mr-1"></i> Import Đề Word (.docx)
+            </a>
+        </div>
+    </div>
+
+    <!-- Hero Banner (Ảnh 1) -->
+    <div class="hero-banner">
+        <div class="hero-badge">
+            Luyện thi thông minh
+        </div>
+        <h1 class="hero-title">
+            Chọn đề thi và bắt đầu chinh phục mục tiêu
+        </h1>
+        <p class="hero-subtitle">
+            Mô phỏng trải nghiệm phòng thi thực tế, theo dõi tiến độ và cải thiện kết quả qua mỗi lần luyện tập.
+        </p>
+    </div>
+
+    <!-- Section Header (Ảnh 1) -->
+    <div class="section-header">
+        <div>
+            <div class="section-tag">Thư viện đề thi</div>
+            <h2 class="section-title">Danh sách đề thi</h2>
+        </div>
+        <div class="section-count">
+            @exams.Count đề thi khả dụng
+        </div>
+    </div>
+
+    @if (!exams.Any())
+    {
+        <div class="card border-0 shadow-sm rounded-lg p-5 text-center bg-white">
+            <div class="mb-3 text-muted">
+                <i class="fas fa-folder-open fa-3x text-primary" style="opacity: 0.5;"></i>
+            </div>
+            <h5 class="text-dark font-weight-bold">Chưa có đề thi nào trong hệ thống</h5>
+            <p class="text-muted small">Nhấn vào nút Import đề thi để nạp dữ liệu bài thi đầu tiên.</p>
+            <div>
+                <a href="/Exam/Import" class="btn btn-primary rounded-pill px-4">
+                    <i class="fas fa-plus mr-1"></i> Import Đề thi ngay
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Grid of Exam Cards (Ảnh 1) -->
+        <div class="exam-grid">
+            @{
+                int idx = 1;
+                string[] levels = new[] { "Trung cấp", "Nâng cao", "Cơ bản" };
+            }
+            @foreach (var item in exams)
+            {
+                var numStr = idx < 10 ? $"0{idx}" : $"{idx}";
+                var level = levels[(idx - 1) % levels.Length];
+                var desc = !string.IsNullOrEmpty(item.Description) && item.Description != "Không có mô tả" 
+                    ? item.Description 
+                    : (idx % 2 == 1 ? "Đề thi mô phỏng theo format TOEIC mới nhất" : "Luyện tập chuyên sâu Part 5, Part 6 và Part 7");
+
+                <div class="exam-card">
+                    <div class="card-top-row">
+                        <div class="exam-num-badge">@numStr</div>
+                        <div class="exam-level-badge">@level</div>
+                    </div>
+
+                    <div class="exam-card-title">@item.Title</div>
+                    <div class="exam-card-desc">@desc</div>
+
+                    <div class="exam-meta-row">
+                        <div class="exam-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>@item.DurationMinutes phút</span>
+                        </div>
+                        <div class="exam-meta-item">
+                            <i class="fas fa-list-ul"></i>
+                            <span>@item.TotalQuestions câu</span>
+                        </div>
+                    </div>
+
+                    <a href="/Exam/Take/@item.Id" class="btn-start-exam">
+                        Bắt đầu làm bài <i class="fas fa-chevron-right ml-1 small"></i>
+                    </a>
+
+                    <!-- Admin controls row -->
+                    <div class="card-admin-actions">
+                        <a href="/Exam/Preview/@item.Id" class="btn btn-sm btn-outline-info" title="Xem trước câu hỏi">
+                            <i class="fas fa-eye"></i> Xem trước
+                        </a>
+                        <a href="/Exam/Edit/@item.Id" class="btn btn-sm btn-outline-secondary" title="Chỉnh sửa">
+                            <i class="fas fa-edit"></i> Sửa
+                        </a>
+                        <button class="btn btn-sm btn-outline-danger btn-delete" data-id="@item.Id" title="Xóa đề">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+
+                idx++;
+            }
+        </div>
+    }
+</div>
+
+@section scripts {
+<script>
+    $(document).ready(function () {
+        $('.btn-delete').click(function () {
+            const id = $(this).data('id');
+            if (confirm('Bạn có chắc chắn muốn xóa đề thi này không?')) {
+                $.post('/api/exam/delete/' + id, function (res) {
+                    alert('Đã xóa đề thi!');
+                    location.reload();
+                }).fail(function (xhr) {
+                    alert('Lỗi: ' + (xhr.responseJSON?.message || 'Không thể xóa đề thi.'));
+                });
+            }
+        });
+    });
+</script>
+}
+

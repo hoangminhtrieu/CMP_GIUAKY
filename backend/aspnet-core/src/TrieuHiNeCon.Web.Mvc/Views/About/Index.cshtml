@@ -1,0 +1,249 @@
+@{
+    ViewBag.Title = "About - TOEIC Prepwise Platform";
+}
+
+<style>
+    :root {
+        --primary-blue: #1668e8;
+        --primary-dark: #0f52bf;
+        --primary-light: #eaf2ff;
+        --text-dark: #0f172a;
+        --text-muted: #64748b;
+        --border-color: #f1f5f9;
+        --card-bg: #ffffff;
+    }
+
+    .about-container {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 24px 20px 60px 20px;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .about-hero {
+        background: linear-gradient(135deg, #1668e8 0%, #1052e0 60%, #0d42b8 100%);
+        border-radius: 24px;
+        padding: 40px 44px;
+        color: #ffffff;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(22, 104, 232, 0.22);
+        margin-bottom: 32px;
+    }
+
+    .about-hero::after {
+        content: '';
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 70%);
+        top: -60px;
+        right: -30px;
+        pointer-events: none;
+    }
+
+    .about-badge {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        backdrop-filter: blur(8px);
+        color: #ffffff;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        padding: 6px 14px;
+        border-radius: 30px;
+        margin-bottom: 16px;
+        text-transform: uppercase;
+    }
+
+    .about-title {
+        font-size: 32px;
+        font-weight: 800;
+        line-height: 1.25;
+        margin-bottom: 12px;
+        color: #ffffff;
+        letter-spacing: -0.5px;
+    }
+
+    .about-subtitle {
+        font-size: 15px;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 650px;
+        margin-bottom: 0;
+    }
+
+    .feature-card {
+        background: #ffffff;
+        border: 1px solid #eef2f6;
+        border-radius: 20px;
+        padding: 28px;
+        height: 100%;
+        transition: all 0.25s ease;
+        box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+    }
+
+    .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba(22, 104, 232, 0.10);
+        border-color: #dbeafe;
+    }
+
+    .feature-icon-box {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        background: var(--primary-light);
+        color: var(--primary-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+
+    .feature-title {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin-bottom: 10px;
+    }
+
+    .feature-desc {
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--text-muted);
+        margin-bottom: 0;
+    }
+
+    .tech-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #334155;
+        margin-right: 8px;
+        margin-bottom: 8px;
+    }
+
+    .tech-pill i {
+        color: var(--primary-blue);
+    }
+</style>
+
+<div class="about-container">
+    <!-- Hero Banner -->
+    <div class="about-hero">
+        <div class="about-badge">
+            <i class="fas fa-certificate mr-1"></i> Examination System
+        </div>
+        <h1 class="about-title">
+            About TOEIC Prepwise Platform
+        </h1>
+        <p class="about-subtitle">
+            Next-generation computerized TOEIC Reading testing system engineered to deliver authentic ETS exam simulation, automated grading, and comprehensive analytics.
+        </p>
+    </div>
+
+    <!-- Core Features Grid -->
+    <div class="row mb-4">
+        <div class="col-md-4 mb-4">
+            <div class="feature-card">
+                <div class="feature-icon-box">
+                    <i class="fas fa-file-word"></i>
+                </div>
+                <h3 class="feature-title">Smart .docx Parser</h3>
+                <p class="feature-desc">
+                    Seamlessly import full 100-question TOEIC Reading exams directly from Microsoft Word documents. Automatic parsing splits passage groups, questions (101–200), and answer keys instantly.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="feature-card">
+                <div class="feature-icon-box">
+                    <i class="fas fa-desktop"></i>
+                </div>
+                <h3 class="feature-title">Authentic Test Simulation</h3>
+                <p class="feature-desc">
+                    Faithful implementation of modern test-taking ergonomics. Features a 75-minute countdown timer, comprehensive question matrix, instant navigation, and smooth reading panes for Part 7.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="feature-card">
+                <div class="feature-icon-box">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3 class="feature-title">Cross-Platform Flutter App</h3>
+                <p class="feature-desc">
+                    Clean, responsive candidate experience across Web and Mobile devices powered by Flutter. Unified REST APIs ensure synchronized test delivery and real-time result synchronicity.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Architecture & Specifications Card -->
+    <div class="card border-0 shadow-sm rounded-lg p-4 bg-white mb-4" style="border-radius: 20px !important;">
+        <div class="card-body">
+            <div class="d-flex align-items-center mb-3">
+                <div class="feature-icon-box mb-0 mr-3" style="width: 44px; height: 44px; font-size: 18px;">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <div>
+                    <h4 class="font-weight-bold text-dark mb-0">System Architecture & Technology Stack</h4>
+                    <small class="text-muted">Enterprise-grade clean architecture for high-concurrency exam delivery</small>
+                </div>
+            </div>
+
+            <hr class="my-3">
+
+            <div class="row pt-2">
+                <div class="col-md-6 mb-3">
+                    <h6 class="font-weight-bold text-dark mb-2"><i class="fas fa-server text-primary mr-1"></i> Backend & Database</h6>
+                    <div class="mb-2">
+                        <span class="tech-pill"><i class="fab fa-microsoft"></i> ASP.NET Core (.NET 9)</span>
+                        <span class="tech-pill"><i class="fas fa-cubes"></i> ABP Framework</span>
+                        <span class="tech-pill"><i class="fas fa-database"></i> Entity Framework Core</span>
+                        <span class="tech-pill"><i class="fas fa-table"></i> Microsoft SQL Server</span>
+                    </div>
+                    <p class="text-muted small">
+                        Provides resilient REST endpoints, JWT authorization, database migration pipelines, and automated scoring validation.
+                    </p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <h6 class="font-weight-bold text-dark mb-2"><i class="fas fa-mobile text-primary mr-1"></i> Frontend & Client Ecosystem</h6>
+                    <div class="mb-2">
+                        <span class="tech-pill"><i class="fab fa-google"></i> Flutter (Dart 3.x)</span>
+                        <span class="tech-pill"><i class="fas fa-globe"></i> Responsive Web & Mobile</span>
+                        <span class="tech-pill"><i class="fas fa-palette"></i> Google Fonts Inter</span>
+                        <span class="tech-pill"><i class="fas fa-bolt"></i> Realtime State Management</span>
+                    </div>
+                    <p class="text-muted small">
+                        Delivers fluid animations, interactive answer review, and instant offline-tolerant client rendering.
+                    </p>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center pt-3 mt-2 border-top">
+                <span class="text-muted small">
+                    <i class="fas fa-shield-alt text-success mr-1"></i> ETS TOEIC 2024–2026 Examination Standard Compliant
+                </span>
+                <a href="/Exam" class="btn btn-sm btn-primary rounded-pill px-4 font-weight-bold">
+                    Go to Exam Library <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+

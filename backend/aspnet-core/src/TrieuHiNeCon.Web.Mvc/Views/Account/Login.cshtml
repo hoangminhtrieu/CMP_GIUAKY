@@ -1,0 +1,88 @@
+@using Abp.Authorization.Users
+@model TrieuHiNeCon.Web.Models.Account.LoginFormViewModel
+@{
+    ViewBag.Title = L("LogIn");
+}
+@section scripts
+{
+    <environment names="Development">
+        <script src="~/view-resources/Views/Account/Login.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/Account/Login.min.js" asp-append-version="true"></script>
+    </environment>
+}
+<h4 class="text-center">@L("LogIn")</h4>
+<form id="LoginForm" asp-action="Login" method="post">
+    <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+    <input type="hidden" name="returnUrlHash" />
+    <div class="input-group mb-3">
+        <input type="text" name="usernameOrEmailAddress" class="form-control" placeholder="@L("UserNameOrEmail")" required autofocus maxlength="@AbpUserBase.MaxEmailAddressLength">
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-user"></span>
+            </div>
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <input type="password" class="form-control" name="Password" autocomplete="password" placeholder="@L("Password")" required maxlength="@AbpUserBase.MaxPlainPasswordLength">
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="icheck-primary">
+                <input type="checkbox" id="RememberMe" name="RememberMe" value="true">
+                <label for="RememberMe">
+                    @L("RememberMe")
+                </label>
+            </div>
+        </div>
+        <div class="col-4">
+            <button type="submit" id="LoginButton" class="btn btn-primary btn-block btn-flat">@L("LogIn")</button>
+        </div>
+    <div class="mt-4 pt-3 border-top text-center">
+        <div class="small text-muted mb-2">Tài khoản Quản trị viên (Giảng viên):</div>
+        <div class="badge badge-light p-2 mb-2 font-weight-normal border text-dark" style="font-size: 0.85rem;">
+            Tài khoản: <strong>admin</strong> &nbsp;|&nbsp; Mật khẩu: <strong>123qwe</strong>
+        </div>
+        <div class="mt-2">
+            <button type="button" class="btn btn-outline-primary btn-sm btn-block" onclick="fillAdminCreds()">
+                <i class="fas fa-magic mr-1"></i> Tự động điền tài khoản Admin
+            </button>
+            <a href="/Exam" class="btn btn-outline-secondary btn-sm btn-block mt-2">
+                <i class="fas fa-arrow-right mr-1"></i> Vào thẳng Hệ thống Đề thi TOEIC
+            </a>
+        </div>
+    </div>
+</form>
+
+<script>
+    function fillAdminCreds() {
+        document.querySelector("input[name='usernameOrEmailAddress']").value = 'admin';
+        document.querySelector("input[name='Password']").value = '123qwe';
+    }
+</script>
+@*<div class="social-auth-links text-center mb-3">
+        <p>- OR -</p>
+        <a href="javascript:;" class="btn btn-block btn-primary">
+            <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+        </a>
+        <a href="javascript:;" class="btn btn-block btn-danger">
+            <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+        </a>
+    </div>*@
+<p class="mb-0">
+    @if (Model.IsSelfRegistrationAllowed)
+    {
+        <div class="row">
+            <div class="col-12">
+                <a asp-action="Register" class="text-center"><i class="fa fa-plus-circle"></i> @L("Register")</a>
+            </div>
+        </div>
+    }
+</p>

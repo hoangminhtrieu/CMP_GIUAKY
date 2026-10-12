@@ -1,0 +1,345 @@
+@{
+    ViewBag.Title = "Dashboard - TOEIC Prepwise";
+}
+
+<style>
+    :root {
+        --primary-blue: #1668e8;
+        --primary-dark: #0f52bf;
+        --primary-light: #eaf2ff;
+        --text-dark: #0f172a;
+        --text-muted: #64748b;
+        --border-color: #f1f5f9;
+        --card-bg: #ffffff;
+    }
+
+    .dashboard-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 24px 20px 60px 20px;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .dash-hero {
+        background: linear-gradient(135deg, #1668e8 0%, #1052e0 60%, #0d42b8 100%);
+        border-radius: 24px;
+        padding: 40px 44px;
+        color: #ffffff;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(22, 104, 232, 0.22);
+        margin-bottom: 32px;
+    }
+
+    .dash-hero::after {
+        content: '';
+        position: absolute;
+        width: 320px;
+        height: 320px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 70%);
+        top: -70px;
+        right: -30px;
+        pointer-events: none;
+    }
+
+    .dash-badge {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        backdrop-filter: blur(8px);
+        color: #ffffff;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        padding: 6px 14px;
+        border-radius: 30px;
+        margin-bottom: 16px;
+        text-transform: uppercase;
+    }
+
+    .dash-title {
+        font-size: 32px;
+        font-weight: 800;
+        line-height: 1.25;
+        margin-bottom: 12px;
+        color: #ffffff;
+        letter-spacing: -0.5px;
+    }
+
+    .dash-subtitle {
+        font-size: 15px;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 680px;
+        margin-bottom: 0;
+    }
+
+    /* Stat Cards */
+    .stat-card {
+        background: #ffffff;
+        border: 1px solid #eef2f6;
+        border-radius: 20px;
+        padding: 24px;
+        box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        transition: all 0.25s ease;
+        height: 100%;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba(22, 104, 232, 0.10);
+        border-color: #dbeafe;
+    }
+
+    .stat-icon {
+        width: 54px;
+        height: 54px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        flex-shrink: 0;
+    }
+
+    .stat-icon.blue { background: #eaf2ff; color: #1668e8; }
+    .stat-icon.green { background: #ecfdf5; color: #10b981; }
+    .stat-icon.amber { background: #fffbeb; color: #f59e0b; }
+    .stat-icon.purple { background: #f5f3ff; color: #8b5cf6; }
+
+    .stat-num {
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--text-dark);
+        line-height: 1.1;
+        margin-bottom: 4px;
+    }
+
+    .stat-label {
+        font-size: 13px;
+        color: var(--text-muted);
+        font-weight: 500;
+        margin-bottom: 0;
+    }
+
+    .action-card {
+        background: #ffffff;
+        border: 1px solid #eef2f6;
+        border-radius: 20px;
+        padding: 24px;
+        box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+        height: 100%;
+    }
+
+    .table-modern {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .table-modern th {
+        background: #f8fafc;
+        color: #475569;
+        font-weight: 700;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        padding: 14px 18px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .table-modern td {
+        padding: 16px 18px;
+        border-bottom: 1px solid #f1f5f9;
+        vertical-align: middle;
+        font-size: 14px;
+    }
+
+    .table-modern tr:hover td {
+        background: #f8fafc;
+    }
+</style>
+
+<div class="dashboard-container">
+    <!-- Hero Banner -->
+    <div class="dash-hero">
+        <div class="dash-badge">
+            <i class="fas fa-chart-line mr-1"></i> Management Overview
+        </div>
+        <h1 class="dash-title">
+            TOEIC Prepwise Operations Dashboard
+        </h1>
+        <p class="dash-subtitle">
+            Welcome to the centralized operations portal. Track ETS examination libraries, candidate attempts, question repositories, and automated test grading pipelines.
+        </p>
+    </div>
+
+    <!-- 4 Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon blue">
+                    <i class="fas fa-book-reader"></i>
+                </div>
+                <div>
+                    <div class="stat-num">2</div>
+                    <div class="stat-label">Published Exams</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon green">
+                    <i class="fas fa-list-check"></i>
+                </div>
+                <div>
+                    <div class="stat-num">200</div>
+                    <div class="stat-label">Active Questions</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon amber">
+                    <i class="far fa-clock"></i>
+                </div>
+                <div>
+                    <div class="stat-num">75m</div>
+                    <div class="stat-label">Standard Duration</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon purple">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <div class="stat-num">ETS</div>
+                    <div class="stat-label">Reading Standard</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Action Launchpad -->
+    <div class="row mb-4">
+        <div class="col-md-4 mb-3">
+            <div class="action-card text-center py-4">
+                <div class="stat-icon blue mx-auto mb-3" style="width: 58px; height: 58px;">
+                    <i class="fas fa-play"></i>
+                </div>
+                <h5 class="font-weight-bold text-dark mb-2">Exam Library & Simulator</h5>
+                <p class="text-muted small mb-3">Browse all tests, launch real-time simulation with countdown timers and answer review.</p>
+                <a href="/Exam" class="btn btn-primary rounded-pill px-4 font-weight-bold" style="background: #1668e8;">
+                    Browse Exams <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="action-card text-center py-4">
+                <div class="stat-icon green mx-auto mb-3" style="width: 58px; height: 58px;">
+                    <i class="fas fa-file-arrow-up"></i>
+                </div>
+                <h5 class="font-weight-bold text-dark mb-2">Import from Word (.docx)</h5>
+                <p class="text-muted small mb-3">Upload Word files to automatically ingest 100 questions, passages, and answer keys.</p>
+                <a href="/Exam/Import" class="btn btn-outline-success rounded-pill px-4 font-weight-bold">
+                    Import New Exam <i class="fas fa-upload ml-1"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="action-card text-center py-4">
+                <div class="stat-icon purple mx-auto mb-3" style="width: 58px; height: 58px;">
+                    <i class="fas fa-mobile-screen"></i>
+                </div>
+                <h5 class="font-weight-bold text-dark mb-2">Student Mobile Portal</h5>
+                <p class="text-muted small mb-3">Candidate testing client built with Flutter for iOS, Android, and Responsive Web.</p>
+                <a href="http://localhost:8080" target="_blank" class="btn btn-outline-primary rounded-pill px-4 font-weight-bold">
+                    Open Flutter Portal <i class="fas fa-external-link-alt ml-1"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Exams Inventory Table -->
+    <div class="action-card p-0 mb-4 overflow-hidden">
+        <div class="p-4 border-bottom d-flex justify-content-between align-items-center bg-white">
+            <div>
+                <h5 class="font-weight-bold text-dark mb-0">Active Examination Inventory</h5>
+                <small class="text-muted">Standard 100-question TOEIC Reading tests available for student attempts</small>
+            </div>
+            <a href="/Exam" class="btn btn-sm btn-outline-primary rounded-pill px-3 font-weight-bold">
+                View All in Library
+            </a>
+        </div>
+        <div class="table-responsive">
+            <table class="table-modern">
+                <thead>
+                    <tr>
+                        <th style="width: 80px;" class="text-center">ID</th>
+                        <th>Exam Title</th>
+                        <th style="width: 140px;" class="text-center">Format</th>
+                        <th style="width: 140px;" class="text-center">Duration</th>
+                        <th style="width: 140px;" class="text-center">Questions</th>
+                        <th style="width: 160px;" class="text-center">Status</th>
+                        <th style="width: 160px;" class="text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center font-weight-bold text-primary">#04</td>
+                        <td>
+                            <div class="font-weight-bold text-dark">TOEIC Reading Actual Test 06</div>
+                            <small class="text-muted">Part 5 (101-130), Part 6 (131-146), Part 7 (147-200)</small>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge badge-light px-3 py-2 font-weight-bold" style="background: #f1f5f9; color: #475569;">ETS Standard</span>
+                        </td>
+                        <td class="text-center text-muted font-weight-bold">75 minutes</td>
+                        <td class="text-center font-weight-bold text-dark">100 items</td>
+                        <td class="text-center">
+                            <span class="badge badge-success px-3 py-2 font-weight-bold">Published</span>
+                        </td>
+                        <td class="text-center">
+                            <a href="/Exam/Take/4" class="btn btn-sm btn-primary rounded-pill px-3 font-weight-bold" style="background: #1668e8;">
+                                Start Test <i class="fas fa-play ml-1 small"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center font-weight-bold text-primary">#05</td>
+                        <td>
+                            <div class="font-weight-bold text-dark">TOEIC Reading Practice Test 06 (Full)</div>
+                            <small class="text-muted">Comprehensive test with passage reading & timed evaluation</small>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge badge-light px-3 py-2 font-weight-bold" style="background: #f1f5f9; color: #475569;">ETS Standard</span>
+                        </td>
+                        <td class="text-center text-muted font-weight-bold">75 minutes</td>
+                        <td class="text-center font-weight-bold text-dark">100 items</td>
+                        <td class="text-center">
+                            <span class="badge badge-success px-3 py-2 font-weight-bold">Published</span>
+                        </td>
+                        <td class="text-center">
+                            <a href="/Exam/Take/5" class="btn btn-sm btn-primary rounded-pill px-3 font-weight-bold" style="background: #1668e8;">
+                                Start Test <i class="fas fa-play ml-1 small"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

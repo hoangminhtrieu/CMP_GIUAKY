@@ -1,0 +1,117 @@
+<link rel="shortcut icon" href="~/img/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+<!-- Font Awesome 6 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- AdminLTE 3 & Bootstrap 4 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+<!-- Toastr & SweetAlert2 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+<!-- Custom Modern Figma-inspired UI Styles -->
+<style>
+    :root {
+        --primary: #4f46e5;
+        --primary-hover: #4338ca;
+        --secondary: #0ea5e9;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --dark: #0f172a;
+        --gray-bg: #f8fafc;
+        --card-border: #e2e8f0;
+    }
+    body {
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        background-color: #f1f5f9;
+        color: #1e293b;
+    }
+    .main-sidebar {
+        background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%) !important;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08) !important;
+    }
+    .brand-link {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        background: transparent !important;
+        padding: 0.95rem 1rem !important;
+    }
+    .brand-text {
+        font-weight: 700 !important;
+        letter-spacing: -0.5px;
+        color: #fff !important;
+    }
+    .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active,
+    .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link:hover {
+        background: rgba(79, 70, 229, 0.2) !important;
+        color: #818cf8 !important;
+        border-radius: 8px;
+    }
+    .main-header.navbar {
+        background: #ffffff !important;
+        border-bottom: 1px solid #e2e8f0 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+    }
+    .content-wrapper {
+        background-color: #f8fafc !important;
+        min-height: calc(100vh - 120px);
+        padding-bottom: 2rem;
+    }
+    .card {
+        border-radius: 14px !important;
+        border: 1px solid var(--card-border) !important;
+        box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04) !important;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card-header {
+        border-top-left-radius: 14px !important;
+        border-top-right-radius: 14px !important;
+        background: #ffffff !important;
+        border-bottom: 1px solid var(--card-border) !important;
+        font-weight: 600;
+    }
+    .btn {
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        padding: 0.45rem 1rem !important;
+        transition: all 0.15s ease-in-out !important;
+    }
+    .btn-primary {
+        background-color: #4f46e5 !important;
+        border-color: #4f46e5 !important;
+    }
+    .btn-primary:hover {
+        background-color: #4338ca !important;
+        border-color: #4338ca !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3) !important;
+    }
+    .badge-pill {
+        border-radius: 50rem !important;
+        padding: 0.35em 0.85em !important;
+        font-weight: 600 !important;
+    }
+    .table thead th {
+        border-top: none !important;
+        border-bottom: 1px solid #e2e8f0 !important;
+        background-color: #f8fafc !important;
+        color: #64748b !important;
+        font-size: 0.82rem !important;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 700 !important;
+    }
+    .table td {
+        vertical-align: middle !important;
+        border-top: 1px solid #f1f5f9 !important;
+    }
+    .user-image, .nav-user-menu img {
+        display: none !important;
+    }
+    .nav-user-menu .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 0.4rem 0.8rem !important;
+    }
+</style>
